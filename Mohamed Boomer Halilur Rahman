@@ -1,0 +1,25 @@
+import request
+
+def unblock_website(url, proxy):
+    proxies = {
+        "http": proxy,
+        "https": proxy,
+    }
+    
+    try:
+        response = requests.get(url, proxies=proxies)
+        response.raise_for_status()
+        return response.content
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {e}")
+        return None
+
+if __name__ == "__main__":
+    url = input("Enter the URL of the website to unblock: ")
+    proxy = input("Enter the proxy server (e.g., http://123.456.789.0:8080): ")
+    
+    content = unblock_website(url, proxy)
+    if content:
+        with open("unblocked_website.html", "wb") as file:
+            file.write(content)
+        print("Website content has been saved to 'unblocked_website.html'.")
